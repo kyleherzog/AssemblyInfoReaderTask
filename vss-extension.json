@@ -2,7 +2,7 @@
   "manifestVersion": 1,
   "id": "AssemblyInfoReader",
   "name": "Assembly Info Reader",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "publisher": "kherzog",
   "targets": [
     {
@@ -20,7 +20,7 @@
     "Variables"
   ],
   "icons": {
-    "default": "images/icon.png"
+    "default": "images/extension-icon.png"
   },
   "files": [
     {
