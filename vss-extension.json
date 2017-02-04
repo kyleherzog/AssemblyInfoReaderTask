@@ -1,0 +1,50 @@
+{
+  "manifestVersion": 1,
+  "id": "AssemblyInfoReader",
+  "name": "Assembly Info Reader",
+  "version": "1.0.0",
+  "publisher": "kherzog",
+  "targets": [
+    {
+      "id": "Microsoft.VisualStudio.Services"
+    }
+  ],
+  "description": "A build task that reads the assembly attributes from the AssemblyInfo.cs file and makes them available as build variables.",
+  "categories": [
+    "Build and release"
+  ],
+  "tags": [
+    "AssemblyInfo",
+    "Version",
+    "Build",
+    "Variables"
+  ],
+  "icons": {
+    "default": "images/icon.png"
+  },
+  "files": [
+    {
+      "path": "AssemblyInfoReaderTask"
+    }
+  ],
+  "content": {
+    "details": {
+      "path": "readme.md"
+    },
+    "license": {
+      "path": "license"
+    }
+  },
+  "contributions": [
+    {
+      "id": "assembly-info-reader-build-task",
+      "type": "ms.vss-distributed-task.task",
+      "targets": [
+        "ms.vss-distributed-task.tasks"
+      ],
+      "properties": {
+        "name": "AssemblyInfoReaderTask"
+      }
+    }   
+  ]
+}
