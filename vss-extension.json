@@ -35,6 +35,14 @@
       "path": "license"
     }
   },
+  "links": {
+    "getstarted": "https://github.com/kyleherzog/AssemblyInfoReaderTask",
+    "support": "https://github.com/kyleherzog/AssemblyInfoReaderTask/issues"
+  },
+  "repository": {
+    "type": "git",
+    "uri": "https://github.com/kyleherzog/AssemblyInfoReaderTask"
+  },
   "contributions": [
     {
       "id": "assembly-info-reader-build-task",
