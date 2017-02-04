@@ -5,42 +5,6 @@
 # Write all params to the console.
 Write-Host ("Search Pattern: " + $searchPattern)
 
-$filesFound = GetAssemblyInfoFiles($searchPattern)
-
-if ($filesFound.Count -eq 0)
-{
-    Write-Warning ("No files matching pattern found.")
-}
-
-foreach ($fileFound in $filesFound)
-{
-    Write-Host ("Reading file: " + $fileFound)
-    $fileText = [IO.File]::ReadAllText($fileFound) #"c:\vstsagent\_work\7\s\Wells.Entities.B2B.Equipment\Properties\AssemblyInfo.cs")
-    SetAssemblyVariables($fileText)
-}
-
-# Write-Host $content
-
-
-
-function GetAssemblyInfoFiles($pattern)
-{
-    if ($env:BUILD_SOURCESDIRECTORY)
-    {
-        Write-Host "Using build.sourcesdirectory as root folder"
-        return Get-ChildItem -Path ($env:BUILD_SOURCESDIRECTORY + $pattern) -Recurse
-    }
-    elseif ($env:SYSTEM_ARTIFACTSDIRECTORY)
-    {
-        Write-Host "Using system.artifactsdirectory as root folder"
-        return Get-ChildItem -Path ($env:SYSTEM_ARTIFACTSDIRECTORY  + $pattern) -Recurse
-    }
-    else
-    {
-        Write-Host "Using current folder as root folder"
-        return Get-ChildItem -Path $pattern -Recurse
-    }
-}
 
 function SetBuildVariable([string]$varName, [string]$varValue)
 {
@@ -93,13 +57,22 @@ function SetAssemblyVariables($content)
                             }
                         }
                     }
+                }                               
+            }           
+        }           
+    }    
+}
 
-                }
-                               
-            }
-            
-        }
-           
-    }
-    
+$filesFound = Get-ChildItem -Path $searchPattern -Recurse
+
+if ($filesFound.Count -eq 0)
+{
+    Write-Warning ("No files matching pattern found.")
+}
+
+foreach ($fileFound in $filesFound)
+{
+    Write-Host ("Reading file: " + $fileFound)
+    $fileText = [IO.File]::ReadAllText($fileFound) #"c:\vstsagent\_work\7\s\Wells.Entities.B2B.Equipment\Properties\AssemblyInfo.cs")
+    SetAssemblyVariables($fileText)
 }
