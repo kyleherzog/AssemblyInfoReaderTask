@@ -2,7 +2,7 @@
   "manifestVersion": 1,
   "id": "AssemblyInfoReader",
   "name": "Assembly Info Reader",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "kherzog",
   "targets": [
     {
@@ -36,8 +36,12 @@
     }
   },
   "links": {
-    "getstarted": "https://github.com/kyleherzog/AssemblyInfoReaderTask",
-    "support": "https://github.com/kyleherzog/AssemblyInfoReaderTask/issues"
+    "getstarted": {
+      "uri": "https://github.com/kyleherzog/AssemblyInfoReaderTask"
+    },
+    "support": {
+      "uri": "https://github.com/kyleherzog/AssemblyInfoReaderTask/issues"
+    }
   },
   "repository": {
     "type": "git",
