@@ -2,7 +2,7 @@
   "manifestVersion": 1,
   "id": "AssemblyInfoReader",
   "name": "Assembly Info Reader",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "publisher": "kherzog",
   "targets": [
     {
@@ -43,6 +43,14 @@
       "uri": "https://github.com/kyleherzog/AssemblyInfoReaderTask/issues"
     }
   },
+  "screenshots": [
+    {
+      "path": "images/screenshot1.png"
+    },
+    {
+      "path":  "images/screenshot2.png"
+    }
+  ],
   "repository": {
     "type": "git",
     "uri": "https://github.com/kyleherzog/AssemblyInfoReaderTask"
