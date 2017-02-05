@@ -2,7 +2,7 @@
   "manifestVersion": 1,
   "id": "AssemblyInfoReader",
   "name": "Assembly Info Reader",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "publisher": "kherzog",
   "targets": [
     {
@@ -16,8 +16,7 @@
   "tags": [
     "AssemblyInfo",
     "Version",
-    "Build",
-    "Variables"
+    "Build Variables"
   ],
   "icons": {
     "default": "images/extension-icon.png"
@@ -55,6 +54,9 @@
     "type": "git",
     "uri": "https://github.com/kyleherzog/AssemblyInfoReaderTask"
   },
+  "galleryFlags": [
+    "Public"
+  ],
   "contributions": [
     {
       "id": "assembly-info-reader-build-task",
