@@ -70,6 +70,11 @@ if ($filesFound.Count -eq 0)
     Write-Warning ("No files matching pattern found.")
 }
 
+if ($filesFound.Count -gt 1)
+{
+   Write-Warning ("Multiple assemblyinfo files found.")  
+}
+
 foreach ($fileFound in $filesFound)
 {
     Write-Host ("Reading file: " + $fileFound)
