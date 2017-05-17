@@ -14,7 +14,7 @@ function SetBuildVariable([string]$varName, [string]$varValue)
 
 function SetAssemblyVariables($content)
 {
-    $matches = [regex]::Matches($content, '(?m)^\s*\[\s*assembly:\s*(\w*)\(\s*"([^"]*)')
+    $matches = [regex]::Matches($content, '(?m)^\s*[\[\<]\s*[Aa]ssembly:\s*(\w*)\(\s*"([^"]*)')
 
     if($matches.Success)
     {
