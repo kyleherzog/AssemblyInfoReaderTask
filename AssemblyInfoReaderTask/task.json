@@ -14,12 +14,20 @@
   "instanceNameFormat": "Generate variables $(searchPattern) ",
   "inputs": [
     {
-      "name": "searchPattern",
-      "type": "filePath",
-      "label": "Path to AssemblyInfo file",
-      "defaultValue": "**\\AssemblyInfo.cs",
-      "helpMarkDown": "Pattern to use for finding the AssemblyInfo file.",
-      "required": true
+        "name": "searchPattern",
+        "type": "filePath",
+        "label": "Path to AssemblyInfo file",
+        "defaultValue": "**\\AssemblyInfo.cs",
+        "helpMarkDown": "Pattern to use for finding the AssemblyInfo file.",
+        "required": true
+    },
+    {
+        "name": "variablesPrefix",
+        "type": "string",
+        "label": "Variables Prefix",
+        "defaultValue": "",
+        "helpMarkDown": "Each variable generated will be prefixed with this value.",
+        "required":  false
     }
   ],
   "execution": {

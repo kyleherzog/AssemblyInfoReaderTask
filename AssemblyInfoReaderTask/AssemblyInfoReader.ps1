@@ -1,15 +1,16 @@
 ﻿Param (
-    [string]$searchPattern = "**\AssemblyInfo.cs"
+    [string]$searchPattern = "**\AssemblyInfo.cs",
+	[string]$variablesPrefix
 )
 
 # Write all params to the console.
 Write-Host ("Search Pattern: " + $searchPattern)
-
+Write-Host ("Variables Prefix: " + $variablesPrefix)
 
 function SetBuildVariable([string]$varName, [string]$varValue)
 {
-	Write-Host ("Setting variable " + $varName + " to '" + $varValue + "'")
-	Write-Output ("##vso[task.setvariable variable=" + $varName + ";]" +  $varValue )
+	Write-Host ("Setting variable " + $variablesPrefix + $varName + " to '" + $varValue + "'")
+	Write-Output ("##vso[task.setvariable variable=" + $variablesPrefix + $varName + ";]" +  $varValue )
 }
 
 function SetAssemblyVariables($content)
@@ -78,6 +79,6 @@ if ($filesFound.Count -gt 1)
 foreach ($fileFound in $filesFound)
 {
     Write-Host ("Reading file: " + $fileFound)
-    $fileText = [IO.File]::ReadAllText($fileFound) #"c:\vstsagent\_work\7\s\Wells.Entities.B2B.Equipment\Properties\AssemblyInfo.cs")
+    $fileText = [IO.File]::ReadAllText($fileFound)
     SetAssemblyVariables($fileText)
 }
