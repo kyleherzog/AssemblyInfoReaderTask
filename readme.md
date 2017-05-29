@@ -1,6 +1,6 @@
 ﻿# Assembly Info Reader Task
 
-A build task that reads the assembly attributes from the AssemblyInfo.cs file and makes them available as build variables.
+A build task that reads the assembly attributes from the AssemblyInfo file and makes them available as build variables.
 
 ### Arguments
 ##### Path to AssemblyInfo.cs

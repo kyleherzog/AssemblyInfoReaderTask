@@ -9,7 +9,7 @@
       "id": "Microsoft.VisualStudio.Services"
     }
   ],
-  "description": "A build task that reads the assembly attributes from the AssemblyInfo.cs file and makes them available as build variables.",
+  "description": "A build task that reads the assembly attributes from the AssemblyInfo file and makes them available as build variables.",
   "categories": [
     "Build and release"
   ],
