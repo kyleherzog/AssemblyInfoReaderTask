@@ -14,7 +14,7 @@ function SetBuildVariable([string]$varName, [string]$varValue)
 
 function SetAssemblyVariables($content)
 {
-    $matches = [regex]::Matches($content, '(?m)^\s*[\[\<]\s*[Aa]ssembly:\s*(\w*)\(\s*"([^"]*)')
+    $matches = [regex]::Matches($content, '(?m)^\s*[\[\<]\s*[Aa]ssembly:\s*(\w*)\(\s*@?"([^"]*)')
 
     if($matches.Success)
     {
@@ -57,10 +57,10 @@ function SetAssemblyVariables($content)
                             }
                         }
                     }
-                }                               
-            }           
-        }           
-    }    
+                }
+            }
+        }
+    }
 }
 
 $filesFound = Get-ChildItem -Path $searchPattern -Recurse
@@ -72,7 +72,7 @@ if ($filesFound.Count -eq 0)
 
 if ($filesFound.Count -gt 1)
 {
-   Write-Warning ("Multiple assemblyinfo files found.")  
+   Write-Warning ("Multiple assemblyinfo files found.")
 }
 
 foreach ($fileFound in $filesFound)
