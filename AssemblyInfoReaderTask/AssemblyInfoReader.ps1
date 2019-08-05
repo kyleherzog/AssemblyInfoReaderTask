@@ -13,7 +13,7 @@ function SetBuildVariable([string]$varName, [string]$varValue)
 	Write-Output ("##vso[task.setvariable variable=" + $variablesPrefix + $varName + ";]" +  $varValue )
 }
 
-function SetAssemblyVariables($content)
+function ReadAndSetCSharpAssemblyVariables($content)
 {
     $matches = [regex]::Matches($content, '(?m)^\s*[\[\<]\s*[Aa]ssembly:\s*(\w*)\(\s*@?"([^"]*)')
 
@@ -80,5 +80,13 @@ foreach ($fileFound in $filesFound)
 {
     Write-Host ("Reading file: " + $fileFound)
     $fileText = [IO.File]::ReadAllText($fileFound)
-    SetAssemblyVariables($fileText)
+
+	if ($searchPattern.EndsWith(".cs", StringComparison.InvariantCultureIgnoreCase))
+	{
+		ReadAndSetCSharpAssemblyVariables($fileText)
+	}
+	else if ($searchPattern.EndsWith(".cob", StringComparison.InvariantCultureIgnoreCase))
+	{
+		#ReadAndSetCobolAssemblyVariables($fileText)
+	}
 }
