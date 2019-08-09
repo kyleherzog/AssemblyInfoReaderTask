@@ -14,6 +14,7 @@ function AssemblyInfoReaderShouldReturnExpectedVersionForCSharpAssemblyInfo() {
 	$expectedReleaseVersion = '8'
 
 	# Act
+	Write-Host("Executing script " + $scriptPath)
 	& $scriptPath -searchPattern '..\AssemblyInfo.cs'
 
 	# Assert

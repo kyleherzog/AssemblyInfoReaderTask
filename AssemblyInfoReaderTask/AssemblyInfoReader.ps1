@@ -3,24 +3,14 @@
 	[string]$variablesPrefix
 )
 
-$csharpVbRegexExpression = '(?m)^\s*[\[\<]\s*[Aa]ssembly:\s*(\w*)\(\s*@?"([^"]*)'
-$cobolRegexExpression = '(?mi)\s*\w*([Aa]ssembly\w*)\s*USING N"([^"]*)'
-
-# Write all params to the console.
-Write-Host ("Search Pattern: " + $searchPattern)
-Write-Host ("Variables Prefix: " + $variablesPrefix)
-
 function SetBuildVariable([string]$varName, [string]$varValue)
 {
 	Write-Host ("Setting variable " + $variablesPrefix + $varName + " to '" + $varValue + "'")
 	Write-Output ("##vso[task.setvariable variable=" + $variablesPrefix + $varName + ";]" +  $varValue )
 }
 
-function ReadAndSetAssemblyVariables($content, $regexExpression)
+function ReadAndSetAssemblyVariables([string]$content, [string]$regexExpression)
 {
-	Write-Host("Content: \n" + $content)
-
-	#Write-Host("regex expression: " + $regexExpression)
     $matches = [regex]::Matches($content, $regexExpression)
 
 	$wereMatchesFound = $matches.Success
@@ -30,13 +20,10 @@ function ReadAndSetAssemblyVariables($content, $regexExpression)
 
     if($wereMatchesFound)
     {
-		Write-Host("Found " + $matches.Count + " matches in content.")
         foreach($match in $matches)
         {
             if($match.Groups.Count -eq 3 -and $match.Groups[2] -ne '')
             {
-				Write-Host("Potential match: " + $match)
-
 				$prefix = "AssemblyInfo."
                 $propertyName = $match.Groups[1]
                 $value = $match.Groups[2]
@@ -78,26 +65,30 @@ function ReadAndSetAssemblyVariables($content, $regexExpression)
     }
 }
 
-function ReadAndSetCobolAssemblyVariables($content) {
+# Write all params to the console.
+Write-Host ("Search Pattern: " + $searchPattern)
+Write-Host ("Variables Prefix: " + $variablesPrefix)
 
-}
+# Pseudo-consts
+$csharpVbRegexExpression = '(?m)^\s*[\[\<]\s*[Aa]ssembly:\s*(\w*)\(\s*@?"([^"]*)'
+$cobolRegexExpression = '(?mi)\s*\w*([Aa]ssembly\w*)\s*USING N"([^"]*)'
 
 $filesFound = Get-ChildItem -Path $searchPattern -Recurse
 
 if ($filesFound.Count -eq 0)
 {
-    Write-Warning ("No files matching pattern found.")
+	Write-Warning ("No files matching pattern found.")
 }
 
 if ($filesFound.Count -gt 1)
 {
-   Write-Warning ("Multiple assemblyinfo files found.")
+	Write-Warning ("Multiple assemblyinfo files found.")
 }
 
 foreach ($fileFound in $filesFound)
 {
-    Write-Host ("Reading file: " + $fileFound)
-    $fileText = [IO.File]::ReadAllText($fileFound)
+	Write-Host ("Reading file: " + $fileFound)
+	$fileText = [IO.File]::ReadAllText($fileFound)
 
 	# Determine which RegEx expression is appropriate for this file
 	$regexExpression = ''
@@ -113,6 +104,5 @@ foreach ($fileFound in $filesFound)
 	}
 
 	# Read assembly info from file content using the appropriate RegEx expression
-	Write-Host("file text: \n" + $fileText)
-	ReadAndSetAssemblyVariables($fileText, $regexExpression)
+	ReadAndSetAssemblyVariables $fileText $regexExpression
 }
