@@ -13,3 +13,8 @@ The value entered here will be prefixed to each variable name generated.  This c
 For each assembly attribute found in the AssemblyInfo file, a build variable will be created in the format of AssemblyInfo.*PropertyName*. (Example: $(AssemblyInfo.AssemblyVersion))
 
 Version type properties found in the AssemblyInfo file will have additional variables made available in the format of AssemblyInfo.*PropertyName*.*VersionSegmentName*. (Example: $(AssemblyInfo.AssemblyVersion.Major)) When parsing the version variables, the generated variables are based on the following naming convention *Major*.*Minor*.*Build*.*Release*.  (Note: The *Build* segment can also be referenced as *Patch*)
+
+### Test Cases
+This is a PowerShell script, so we're limited in our options for true automated testing.
+
+Some basic testcases for verifying script functionality have been included but will need to be manually run.

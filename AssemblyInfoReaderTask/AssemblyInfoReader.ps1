@@ -3,6 +3,9 @@
 	[string]$variablesPrefix
 )
 
+$csharpVbRegexExpression = '(?m)^\s*[\[\<]\s*[Aa]ssembly:\s*(\w*)\(\s*@?"([^"]*)'
+$cobolRegexExpression = '(?mi)\s*\w*([Aa]ssembly\w*)\s*USING N"([^"]*)'
+
 # Write all params to the console.
 Write-Host ("Search Pattern: " + $searchPattern)
 Write-Host ("Variables Prefix: " + $variablesPrefix)
@@ -13,16 +16,27 @@ function SetBuildVariable([string]$varName, [string]$varValue)
 	Write-Output ("##vso[task.setvariable variable=" + $variablesPrefix + $varName + ";]" +  $varValue )
 }
 
-function ReadAndSetCSharpAssemblyVariables($content)
+function ReadAndSetAssemblyVariables($content, $regexExpression)
 {
-    $matches = [regex]::Matches($content, '(?m)^\s*[\[\<]\s*[Aa]ssembly:\s*(\w*)\(\s*@?"([^"]*)')
+	Write-Host("Content: \n" + $content)
 
-    if($matches.Success)
+	#Write-Host("regex expression: " + $regexExpression)
+    $matches = [regex]::Matches($content, $regexExpression)
+
+	$wereMatchesFound = $matches.Success
+	if (-not $wereMatchesFound) {
+		Write-Host("Could not find matches for regex expression " + $regexExpression + " in content.")
+	}
+
+    if($wereMatchesFound)
     {
+		Write-Host("Found " + $matches.Count + " matches in content.")
         foreach($match in $matches)
         {
             if($match.Groups.Count -eq 3 -and $match.Groups[2] -ne '')
             {
+				Write-Host("Potential match: " + $match)
+
 				$prefix = "AssemblyInfo."
                 $propertyName = $match.Groups[1]
                 $value = $match.Groups[2]
@@ -64,6 +78,10 @@ function ReadAndSetCSharpAssemblyVariables($content)
     }
 }
 
+function ReadAndSetCobolAssemblyVariables($content) {
+
+}
+
 $filesFound = Get-ChildItem -Path $searchPattern -Recurse
 
 if ($filesFound.Count -eq 0)
@@ -81,12 +99,20 @@ foreach ($fileFound in $filesFound)
     Write-Host ("Reading file: " + $fileFound)
     $fileText = [IO.File]::ReadAllText($fileFound)
 
-	if ($searchPattern.EndsWith(".cs", StringComparison.InvariantCultureIgnoreCase))
+	# Determine which RegEx expression is appropriate for this file
+	$regexExpression = ''
+	if ($searchPattern.EndsWith(".cs", [System.StringComparison]::OrdinalIgnoreCase) -or $searchPattern.EndsWith(".vb", [System.StringComparison]::OrdinalIgnoreCase))
 	{
-		ReadAndSetCSharpAssemblyVariables($fileText)
+		Write-Host("Using CSharp/VbNet regex expression " + $csharpVbRegexExpression)
+		$regexExpression = $csharpVbRegexExpression
 	}
-	else if ($searchPattern.EndsWith(".cob", StringComparison.InvariantCultureIgnoreCase))
+	elseif ($searchPattern.EndsWith(".cob", [System.StringComparison]::OrdinalIgnoreCase))
 	{
-		#ReadAndSetCobolAssemblyVariables($fileText)
+		Write-Host("Using Cobol regex expression " + $cobolRegexExpression)
+		$regexExpression = $cobolRegexExpression
 	}
+
+	# Read assembly info from file content using the appropriate RegEx expression
+	Write-Host("file text: \n" + $fileText)
+	ReadAndSetAssemblyVariables($fileText, $regexExpression)
 }
