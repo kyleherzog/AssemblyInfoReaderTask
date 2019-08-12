@@ -15,6 +15,6 @@ For each assembly attribute found in the AssemblyInfo file, a build variable wil
 Version type properties found in the AssemblyInfo file will have additional variables made available in the format of AssemblyInfo.*PropertyName*.*VersionSegmentName*. (Example: $(AssemblyInfo.AssemblyVersion.Major)) When parsing the version variables, the generated variables are based on the following naming convention *Major*.*Minor*.*Build*.*Release*.  (Note: The *Build* segment can also be referenced as *Patch*)
 
 ### Test Cases
-This is a PowerShell script, so we're limited in our options for true automated testing.
+This project contains a PowerShell script for executing rough unit tests which ensure we are detecting expected information for .cs, .vb, and .cob AssemblyInfo files.
 
-Some basic testcases for verifying script functionality have been included but will need to be manually run.
+They can be run by running TestCases/RunTestCases.ps1
