@@ -5,6 +5,9 @@
 
 function SetBuildVariable([string]$varName, [string]$varValue)
 {
+	# Fix casing issues introduced by Cobol
+	$varName = $varName.Replace("ASSEMBLY", "Assembly").Replace("DESCRIPTION", "Description").Replace("COPYRIGHT", "Copyright").Replace("TITLE", "Title").Replace("FILE", "File").Replace("VERSION", "Version").Replace("TRADEMARK", "Trademark").Replace("PRODUCT", "Product").Replace("COMPANY", "Company")
+
 	Write-Host ("Setting variable " + $variablesPrefix + $varName + " to '" + $varValue + "'")
 	Write-Output ("##vso[task.setvariable variable=" + $variablesPrefix + $varName + ";]" +  $varValue )
 }
