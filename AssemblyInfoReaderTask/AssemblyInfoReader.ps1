@@ -3,21 +3,25 @@
 	[string]$variablesPrefix
 )
 
-# Write all params to the console.
-Write-Host ("Search Pattern: " + $searchPattern)
-Write-Host ("Variables Prefix: " + $variablesPrefix)
-
 function SetBuildVariable([string]$varName, [string]$varValue)
 {
+	# Fix casing issues introduced by Cobol
+	$varName = $varName.Replace("ASSEMBLY", "Assembly").Replace("DESCRIPTION", "Description").Replace("COPYRIGHT", "Copyright").Replace("TITLE", "Title").Replace("FILE", "File").Replace("VERSION", "Version").Replace("TRADEMARK", "Trademark").Replace("PRODUCT", "Product").Replace("COMPANY", "Company")
+
 	Write-Host ("Setting variable " + $variablesPrefix + $varName + " to '" + $varValue + "'")
 	Write-Output ("##vso[task.setvariable variable=" + $variablesPrefix + $varName + ";]" +  $varValue )
 }
 
-function SetAssemblyVariables($content)
+function ReadAndSetAssemblyVariables([string]$content, [string]$regexExpression)
 {
-    $matches = [regex]::Matches($content, '(?m)^\s*[\[\<]\s*[Aa]ssembly:\s*(\w*)\(\s*@?"([^"]*)')
+    $matches = [regex]::Matches($content, $regexExpression)
 
-    if($matches.Success)
+	$wereMatchesFound = $matches.Success
+	if (-not $wereMatchesFound) {
+		Write-Host("Could not find matches for regex expression " + $regexExpression + " in content.")
+	}
+
+    if($wereMatchesFound)
     {
         foreach($match in $matches)
         {
@@ -64,21 +68,44 @@ function SetAssemblyVariables($content)
     }
 }
 
+# Write all params to the console.
+Write-Host ("Search Pattern: " + $searchPattern)
+Write-Host ("Variables Prefix: " + $variablesPrefix)
+
+# Pseudo-consts
+$csharpVbRegexExpression = '(?m)^\s*[\[\<]\s*[Aa]ssembly:\s*(\w*)\(\s*@?"([^"]*)'
+$cobolRegexExpression = '(?mi)\s*\w*([Aa]ssembly\w*)\s*USING N"([^"]*)'
+
 $filesFound = Get-ChildItem -Path $searchPattern -Recurse
 
 if ($filesFound.Count -eq 0)
 {
-    Write-Warning ("No files matching pattern found.")
+	Write-Warning ("No files matching pattern found.")
 }
 
 if ($filesFound.Count -gt 1)
 {
-   Write-Warning ("Multiple assemblyinfo files found.")
+	Write-Warning ("Multiple assemblyinfo files found.")
 }
 
 foreach ($fileFound in $filesFound)
 {
-    Write-Host ("Reading file: " + $fileFound)
-    $fileText = [IO.File]::ReadAllText($fileFound)
-    SetAssemblyVariables($fileText)
+	Write-Host ("Reading file: " + $fileFound)
+	$fileText = [IO.File]::ReadAllText($fileFound)
+
+	# Determine which RegEx expression is appropriate for this file
+	$regexExpression = ''
+	if ($searchPattern.EndsWith(".cs", [System.StringComparison]::OrdinalIgnoreCase) -or $searchPattern.EndsWith(".vb", [System.StringComparison]::OrdinalIgnoreCase))
+	{
+		Write-Host("Using CSharp/VbNet regex expression " + $csharpVbRegexExpression)
+		$regexExpression = $csharpVbRegexExpression
+	}
+	elseif ($searchPattern.EndsWith(".cob", [System.StringComparison]::OrdinalIgnoreCase))
+	{
+		Write-Host("Using Cobol regex expression " + $cobolRegexExpression)
+		$regexExpression = $cobolRegexExpression
+	}
+
+	# Read assembly info from file content using the appropriate RegEx expression
+	ReadAndSetAssemblyVariables $fileText $regexExpression
 }
