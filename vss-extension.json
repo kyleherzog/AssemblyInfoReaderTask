@@ -2,7 +2,7 @@
   "manifestVersion": 1,
   "id": "AssemblyInfoReader",
   "name": "Assembly Info Reader",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "publisher": "kherzog",
   "targets": [
     {

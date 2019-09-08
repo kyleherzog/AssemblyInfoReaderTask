@@ -95,15 +95,15 @@ foreach ($fileFound in $filesFound)
 
 	# Determine which RegEx expression is appropriate for this file
 	$regexExpression = ''
-	if ($searchPattern.EndsWith(".cs", [System.StringComparison]::OrdinalIgnoreCase) -or $searchPattern.EndsWith(".vb", [System.StringComparison]::OrdinalIgnoreCase))
-	{
-		Write-Host("Using CSharp/VbNet regex expression " + $csharpVbRegexExpression)
-		$regexExpression = $csharpVbRegexExpression
-	}
-	elseif ($searchPattern.EndsWith(".cob", [System.StringComparison]::OrdinalIgnoreCase))
+	if ($searchPattern.EndsWith(".cob", [System.StringComparison]::OrdinalIgnoreCase))
 	{
 		Write-Host("Using Cobol regex expression " + $cobolRegexExpression)
 		$regexExpression = $cobolRegexExpression
+	}
+	else
+	{
+		Write-Host("Using CSharp/VbNet regex expression " + $csharpVbRegexExpression)
+		$regexExpression = $csharpVbRegexExpression
 	}
 
 	# Read assembly info from file content using the appropriate RegEx expression
