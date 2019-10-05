@@ -1,4 +1,4 @@
-﻿[CmdletBinding]
+﻿[CmdletBinding()]
 param()
 
 function SetBuildVariable([string]$varName, [string]$varValue)
@@ -67,8 +67,8 @@ function ReadAndSetAssemblyVariables([string]$content, [string]$regexExpression)
 }
 
 
-$searchPattern = GetVstsInput -Name 'searchPattern' -Require
-$variablesPrefix = GetVstsInput -Name 'variablesPrefix'
+$searchPattern = Get-VstsTaskVariable -Name 'searchPattern' -Require
+$variablesPrefix = Get-VstsTaskVariable -Name 'variablesPrefix'
 
 # Write all params to the console.
 Write-Host ("Search Pattern: " + $searchPattern)
