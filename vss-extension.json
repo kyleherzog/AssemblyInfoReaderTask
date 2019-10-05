@@ -11,7 +11,7 @@
   ],
   "description": "A build task that reads the assembly attributes from the AssemblyInfo file and makes them available as build variables.",
   "categories": [
-    "Build and release"
+    "Azure Pipelines"
   ],
   "tags": [
     "AssemblyInfo",
