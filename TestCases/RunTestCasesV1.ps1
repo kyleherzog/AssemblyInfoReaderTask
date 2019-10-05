@@ -2,7 +2,7 @@ Param()
 
 $scriptPath = '../AssemblyInfoReaderTask'
 $scriptPath = Resolve-Path $scriptPath | Select-Object -ExpandProperty Path | Out-String
-$scriptPath = $scriptPath.Trim() + '\AssemblyInfoReader.ps1'
+$scriptPath = $scriptPath.Trim() + '\AssemblyInfoReaderTaskV1\AssemblyInfoReader.ps1'
 
 # Expected versions are manually pulled ahead-of-time from the testcase files
 
