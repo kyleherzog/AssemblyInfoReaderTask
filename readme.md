@@ -17,4 +17,4 @@ Version type properties found in the AssemblyInfo file will have additional vari
 ### Test Cases
 This project contains a PowerShell script for executing rough unit tests which ensure we are detecting expected information for .cs, .vb, and .cob AssemblyInfo files.
 
-They can be run by running TestCases/RunTestCases.ps1
+They can be run by running TestCases/RunTestCasesV1.ps1 and/or TestCases/RunTestCasesV2.ps1
