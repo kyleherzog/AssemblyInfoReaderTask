@@ -66,9 +66,12 @@ function ReadAndSetAssemblyVariables([string]$content, [string]$regexExpression)
     }
 }
 
+# When running tests Get-VstsTaskVariable needs to be used instead of Get-VstsInput for now
+# $searchPattern = Get-VstsTaskVariable -Name 'searchPattern' -Require
+# $variablesPrefix = Get-VstsTaskVariable -Name 'variablesPrefix'
 
-$searchPattern = Get-VstsTaskVariable -Name 'searchPattern' -Require
-$variablesPrefix = Get-VstsTaskVariable -Name 'variablesPrefix'
+$searchPattern = Get-VstsInput -Name 'searchPattern' -Require
+$variablesPrefix = Get-VstsInpu -Name 'variablesPrefix'
 
 # Write all params to the console.
 Write-Host ("Search Pattern: " + $searchPattern)
