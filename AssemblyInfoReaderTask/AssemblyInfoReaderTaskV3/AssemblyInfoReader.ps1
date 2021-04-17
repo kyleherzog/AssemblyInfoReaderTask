@@ -26,7 +26,7 @@ function ReadAndSetAssemblyVariables([string]$content, [string]$regexExpression)
             if($match.Groups.Count -eq 3 -and $match.Groups[2] -ne '')
             {
 				$prefix = "AssemblyInfo."
-                $propertyName = $match.Groups[1].Replace("System.Reflection.","")
+                $propertyName = [Regex]::Replace($match.Groups[1], "System\.Reflection\.", "")
                 $value = $match.Groups[2]
 				SetBuildVariable "$prefix$propertyName" $value
 
